@@ -33,3 +33,9 @@ jobs:
 
       - name: Build project
         run: npm run build
+
+      - name: Upload demo site
+        uses: actions/upload-artifact@v4
+        with:
+          name: demo-site
+          path: demo/
