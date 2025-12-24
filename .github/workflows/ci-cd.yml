@@ -34,8 +34,27 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Generate build log
+        run: |
+          echo "Build run at $(date)" > build-log.txt
+
+      - name: Upload build log
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs
+          path: build-log.txt
+
       - name: Upload demo site
         uses: actions/upload-artifact@v4
         with:
           name: demo-site
           path: demo/
+
+  deploy:
+    needs: ci
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
